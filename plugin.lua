@@ -1,6 +1,6 @@
-﻿function if_admin(msg)
-	admin_name = "ادمین"
-	is_admin = false
+function if_admin(msg)
+	admin_name = "پوریا"	
+        is_admin = false
 	admintab = admins(msg.chat.id)
 	for i=1,#admintab.result do
 		if admintab.result[i].user.id == msg.from.id then
@@ -15,7 +15,7 @@
 end
 
 function manage_group(msg)
-	msg.text = msg.text:gsub("@Jilbot","")
+	msg.text = msg.text:gsub("@CyberStarBot","")
 	if not groups[gpid] then
 		groups[gpid] = {anti=true,welcome="def"}
 		save_data("groups.json", groups)
@@ -77,10 +77,8 @@ function manage_group(msg)
 			return send_msg(msg.chat.id, msg.from.id, false)
 		end
 	elseif msg.text:lower() == "/about" or msg.text:lower() == "about" then
-		about_txt = "*Jil Robot* v"..bot_version.."\n`رباتی منحصر به فرد و رایگان برای مدیران کانال ها و گروه ها همچنین افرادی که میخواهند خاص و متفاوت باشند.\nامکانات ربات:`\n"..ghabeliyat
-			.."\n\n`طراحی و ساخت در تیم آمبرلا به سفارش کانال چاشنی`"
-		about_key = {{{text = "کانال چاشنی" , url = "https://telegram.me/chashni1"},{text = "پشتیبان ربات" , url = "https://telegram.me/navidder"}},{{text = "سازنده ربات" , url = "https://telegram.me/UmbrellaTeam"},{text = "سفارش ربات" , url = "https://telegram.me/shayan_soft"}}}
-		return send_inline(msg.chat.id, about_txt, about_key)
+		about_txt = "*Cyber Bot* v"..bot_version.."\n`رباتی منحصر به فرد و رایگان برای مدیران کانال ها و گروه ها همچنین افرادی که میخواهند خاص و متفاوت باشند.\nامکانات ربات:`\n"..ghabeliyat
+		return send_msg(msg.chat.id, about_txt)
 	end
 	
 	statuss = mem_info(msg.chat.id, bot.id)
@@ -150,27 +148,25 @@ function manage_group(msg)
 					.."==============================\n"
 					.."/id\nدریافت شناسه تلگرام. اگر دستور را با شخصی رپلی کنید شناسه ی شخص را به دست می آورید\n"
 					.."==============================\n"
-					.."/welcome_no\nغیر فعال سازی خوش آمد گویی\n"
+					.."/welcome_off\nغیر فعال سازی خوش آمد گویی\n"
 					.."==============================\n"
-					.."/welcome_yes\nفعال سازی خوش آمد گویی\n"
+					.."/welcome_on\nفعال سازی خوش آمد گویی\n"
 					.."==============================\n"
-					.."/welcome_set پیام\nثبت پیام خوش آمدگویی\n"
+					.."/setwelcome پیام\nثبت پیام خوش آمدگویی\n"
 					.."==============================\n"
-					.."/rules_set پیام\nثبت قوانین\n"
+					.."/setrules پیام\nثبت قوانین\n"
 					.."==============================\n"
-					.."/rules_no\nحذف قوانین\n"
+					.."/delrules\nحذف قوانین\n"
 					.."==============================\n"
 					.."/ads_kick\nحذف تبلیغ کنندگان\n"
 					.."==============================\n"
 					.."/ads_warn\nاخطار به ابلیغ کنندگان\n"
 					.."==============================\n"
-					.."/ads_no\nبی اعتنا به تبلیغ کنندگان"
+					.."/ads_off\nبی اعتنا به تبلیغ کنندگان"
 				return send_msg(msg.chat.id, text, false)
 			else
 				text = "ربات نگهبان گروه و ضد لینک:\n\n"
 					.."/help\nراهنمای ربات\n"
-					.."==============================\n"
-					.."/about\nدرباره سازنده ربات\n"
 					.."==============================\n"
 					.."/kickme\nحذف شما از گروه\n"
 					.."==============================\n"
@@ -232,15 +228,15 @@ function manage_group(msg)
 		else
 			return send_msg(msg.chat.id, "قوانین گروه:\n\n"..groups[gpid].rules, false)
 		end
-	elseif msg.text:lower() == "/welcome_no" and if_admin(msg) then
+	elseif msg.text:lower() == "/welcome_off" and if_admin(msg) then
 		groups[gpid].welcome = false
 		save_data("groups.json", groups)
 		return send_msg(msg.chat.id, "`پیام خوش آمد گویی غیر فعال شد.`", true)
-	elseif msg.text:lower() == "/welcome_yes" and if_admin(msg) then
+	elseif msg.text:lower() == "/welcome_on" and if_admin(msg) then
 		groups[gpid].welcome = "def"
 		save_data("groups.json", groups)
 		return send_msg(msg.chat.id, "`پیام خوش آمد گویی فعال شد.`", true)
-	elseif msg.text:find('/welcome_set') and if_admin(msg) then
+	elseif msg.text:find('/setwelcome') and if_admin(msg) then
 		wtext = msg.text:input()
 		if wtext then
 			groups[gpid].welcome = wtext
@@ -249,7 +245,7 @@ function manage_group(msg)
 		else
 			return send_msg(msg.chat.id, "`بعد از این دستور، پیام خوش آمدگویی مورد نظر را وارد نمایید.`", true)
 		end
-	elseif msg.text:lower() == "/rules_no" and if_admin(msg) then
+	elseif msg.text:lower() == "/delrules" and if_admin(msg) then
 		groups[gpid].rules = false
 		save_data("groups.json", groups)
 		return send_msg(msg.chat.id, "`قوانین حذف شدند.`", true)
@@ -262,7 +258,7 @@ function manage_group(msg)
 		else
 			return send_msg(msg.chat.id, "`بعد از این دستور، قوانین مورد نظر را وارد نمایید.`", true)
 		end
-	elseif msg.text:lower() == "/ads_no" and if_admin(msg) then
+	elseif msg.text:lower() == "/ads_off" and if_admin(msg) then
 		groups[gpid].ads = "no"
 		save_data("groups.json", groups)
 		return send_msg(msg.chat.id, "`حساسیت به تبلیغات غیر فعال شد.`", true)
@@ -292,7 +288,7 @@ function run(msg)
 	start_txt = "به ربات "..bot.first_name..' خوش آمدید\n\n`در این ربات امکانات زیر را به صورت رایگان خواهید داشت:`\n'..ghabeliyat
 	..'\n\n`توجه کنید!\nاین ربات ضد اسپم بوده و هرگونه اسپم و فلود را تشخیص میدهد و در صورتی که اسپم کنید از ربات بلاک میشوید و دیگر ربات به شما پاسخ نخواهد داد. دقت کنید که آنبلاک کردن رایگان نخواهد بود.`'
 	keyboard = {{"نگهبان گروه و ضد تبلیغ"},{"ارسال کیبرد شیشه ای به کانال"},{"درج زیرنویس در عکس، فیلم، گیف و فایل"},{"ایجاد متن با فونتهای مختلف و هایپر لینک"},{"راهنما","درباره ما","تبلیغ و تبادل"}}
-	add_key = {{{text = "افزودن ربات به گروه" , url = "https://telegram.me/jilbot?startgroup=start"}}}
+	add_key = {{{text = "افزودن ربات به گروه" , url = "https://telegram.me/CyberStarBot?startgroup=start"}}}
 	blocks = load_data("blocks.json")
 	users = load_data("users.json")
 	groups = load_data("groups.json")
@@ -361,14 +357,14 @@ function run(msg)
 			return send_msg(msg.from.id, help_user, true)
 		end
 	elseif msg.text == "تبلیغ و تبادل" then
-		rdjvn = mem_num("@chashni1")
+		rdjvn = mem_num("@CyberCH")
 		i=0
 		for k,v in pairs(users) do
 			i=i+1
 		end
 		bstat = i+1395
 		text = "نمایش آمار زنده:\n     زمان: "..os.date("%F - %H:%M:%S").."\n     کانال: "..rdjvn.result.."\n     ربات: "..bstat.."\n\n`برای تبادل و درج تبلیغات خود با ما در ارتباط باشید:`"
-		return send_inline(msg.from.id, text, {{{text = "ارتباط با ادمین تبلیغات" , url = "https://telegram.me/navidder"}},{{text = "نرخ و شرایط تبلیغات" , url = "https://telegram.me/ads1m"}}})
+		return send_inline(msg.from.id, text, {{{text = "ارتباط با ادمین" , url = "https://telegram.me/This_Is_Pouria"}}})
 	elseif msg.text == '/sendtoallgp' and msg.chat.id == sudo_id then
 		if msg.reply_to_message then
 			send_msg(sudo_id, "منتظر بمانید...", true)
