@@ -1,5 +1,5 @@
 function if_admin(msg)
-	admin_name = "پوریا"	
+	admin_name = "ادمین"
         is_admin = false
 	admintab = admins(msg.chat.id)
 	for i=1,#admintab.result do
